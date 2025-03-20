@@ -33,6 +33,8 @@ test.describe('test suite', () => {
         page.locator(':text("Using the Grid")')
     });
 
+
+
     test('user facing locators', async ({page}) => {
        await page.getByRole('textbox', {name: 'Email'}).first().click();
     await page.getByRole('button', {name: 'Sign in'}).first().click();
@@ -43,7 +45,7 @@ test.describe('test suite', () => {
     // await page.getByRole('heading', {name: 'Login Form'}).isVisible();
     // await page.getByRole('alert', {name: 'Error'}).isVisible();
     // await page.getByRole('img', {name: 'User Avatar'}).isVisible();  -- different examples
-    })
+    });
 
 // getByTestId will only work if tge element have this attribute set
 
@@ -61,4 +63,18 @@ test.describe('test suite', () => {
     //     expect(messageText).toBe('Login successful');
     // }); 
     // The above will fail as the website needs to have the data-testid set for the elements
+    
+    test('Reusing the locators', async ({page}) => {
+        // await page.locator('nb-card').filter({hasText: "Basic form"}).getByRole('textbox', {name: "Email"}).fill('test@test.com')
+       const basicForm = await page.locator('nb-card').filter({hasText: "Basic form"})
+       const email = basicForm.getByRole('textbox', {name: "Email"})
+       
+       await email.fill('test@test.com')
+        await basicForm.getByRole('textbox', {name: "Password"}).fill('password')
+        await basicForm.locator('nb-checkbox').click()
+        await basicForm.getByRole('button').click()
+
+        await expect(email).toHaveValue('test@test.com');
+       
+    });
 })
