@@ -77,4 +77,27 @@ test.describe('test suite', () => {
         await expect(email).toHaveValue('test@test.com');
        
     });
+
+    test('Extracting values', async ({page}) => {
+        // await page.locator('nb-card').filter({hasText: "Basic form"}).getByRole('textbox', {name: "Email"}).fill('test@test.com')
+       const basicForm = await page.locator('nb-card').filter({hasText: "Basic form"})
+       const buttonText = await basicForm.locator('button').textContent()
+       expect(buttonText).toEqual('Submit')
+       
+       const radioBtnLabels = await page.locator('nb-radio').allTextContents
+       expect(radioBtnLabels).toContain('Option 1')
+
+       // input value
+
+       const email = basicForm.getByRole('textbox', {name: 'Email'})
+       await email.fill('test@test.com')
+       const value = await email.inputValue()
+       expect(value).toEqual('test@test.com')
+
+       //place holder value assertion
+
+       const placeholdervalue = await email.getAttribute('placeholder')
+       expect(placeholdervalue).toEqual('Email')
+       
+    });
 })
