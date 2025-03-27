@@ -100,4 +100,25 @@ test.describe('test suite', () => {
        expect(placeholdervalue).toEqual('Email')
        
     });
+
+    test('Assertion types in PW', async ({page}) => {
+        
+
+        //General assertion
+        const val = 5
+        expect(val).toEqual(5)
+
+
+       const basicFormBtn = await page.locator('nb-card').filter({hasText: "Basic form"}).locator('button')
+       const buttonText = await basicFormBtn.textContent()
+       expect(buttonText).toEqual('Submit')
+
+       // locator assertion
+       expect(basicFormBtn).toHaveText('Submit')
+       
+       // Soft assertion, the automation will still clcik the button even if the soft assertion fais
+       expect.soft(basicFormBtn).toHaveText('Submit')
+       await basicFormBtn.click()
+       
+    });
 })
