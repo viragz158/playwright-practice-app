@@ -84,7 +84,7 @@ test.describe('test suite', () => {
        const buttonText = await basicForm.locator('button').textContent()
        expect(buttonText).toEqual('Submit')
        
-       const radioBtnLabels = await page.locator('nb-radio').allTextContents
+       const radioBtnLabels = await page.locator('nb-radio').allTextContents()
        expect(radioBtnLabels).toContain('Option 1')
 
        // input value
